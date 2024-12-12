@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting Machine</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        header {
+            background-color: #6200ea;
+            color: white;
+            padding: 20px 0;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .party {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px;
+            border: 2px solid #6200ea;
+            border-radius: 5px;
+            background-color: white;
+            width: 200px;
+        }
+
+        .party button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #03dac6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .party button:hover {
+            background-color: #018786;
+        }
+
+        .results {
+            margin-top: 30px;
+        }
+
+        .results h2 {
+            color: #6200ea;
+        }
+
+        .results p {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+
+        .refresh-instruction {
+            margin-top: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MANZIL PROJECT</h1>
+    </header>
+    <main>
+        <section id="parties">
+            <!-- Parties will be injected here by JavaScript -->
+        </section>
+        <div class="results">
+            <h2>Current Results</h2>
+            <div id="results">
+                <!-- Results will be injected here by JavaScript -->
+            </div>
+        </div>
+        <div class="refresh-instruction">
+            Refresh the page to vote again.
+        </div>
+    </main>
+
+    <script>
+        // Data structure to store vote counts for each party
+        const parties = Array.from({ length: 25 }, (_, i) => ({
+            name: `Party ${i + 1}`,
+            votes: 0
+        }));
+
+        // Generate party buttons and results dynamically
+        const partyContainer = document.getElementById('parties');
+        const resultsContainer = document.getElementById('results');
+
+        function renderParties() {
+            partyContainer.innerHTML = '';
+            parties.forEach((party, index) => {
+                const partyElement = document.createElement('div');
+                partyElement.className = 'party';
+                partyElement.innerHTML = `
+                    <h3>${party.name}</h3>
+                    <button onclick="castVote(${index})">Vote</button>
+                `;
+                partyContainer.appendChild(partyElement);
+            });
+        }
+
+        function renderResults() {
+            resultsContainer.innerHTML = '';
+            parties.forEach(party => {
+                const resultElement = document.createElement('p');
+                resultElement.textContent = `${party.name}: ${party.votes} votes`;
+                resultsContainer.appendChild(resultElement);
+            });
+        }
+
+        // Function to handle voting
+        function castVote(index) {
+            parties[index].votes += 1;
+            renderResults();
+            alert(`Your vote for ${parties[index].name} has been counted!`);
+        }
+
+        // Initialize the page
+        renderParties();
+        renderResults();
+    </script>
+</body>
+</html>
+
